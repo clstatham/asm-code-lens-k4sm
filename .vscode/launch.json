@@ -8,11 +8,13 @@
             "request": "launch",
             "runtimeExecutable": "${execPath}",
             "args": [
-                //"--disable-extensions",
+                "--disable-extensions",
                 "--extensionDevelopmentPath=${workspaceFolder}"
             ],
             "sourceMaps": true,
-            "outFiles": [ "${workspaceFolder}/out/extension.js" ],
+            "outFiles": [
+                "${workspaceFolder}/out/extension.js"
+            ],
             "preLaunchTask": "watch",
             "skipFiles": [
                 "**/extensionHostProcess.js"

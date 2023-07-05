@@ -53,7 +53,7 @@ export class SymbolRegexes {
 	 * Note: The same regex can be returned for asm and list files.
 	 */
 	public static regexData(): RegExp {
-		return /\b(d[bcdghmsw]|def[bdghmsw])\b\s*(.*)/i;
+		return /\b(d[bcdghmsw]|def[bdghmsw]|@)\b\s*(.*)/i;
 	}
 
 

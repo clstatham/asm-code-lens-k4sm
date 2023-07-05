@@ -16,7 +16,7 @@ export class CommonRegexes {
      *  2 = the label itself e.g. "init.label_1"
      */
     public static regexLabelWithAndWithoutColon(): RegExp {
-        return /(^@?)([a-z_][\w\.]*):?/i;
+        return /((^@?|^%?))([a-z_][\w\.]*):?/i;
     }
 
 
@@ -29,15 +29,15 @@ export class CommonRegexes {
      *  1 = preceding spaces (and other chars in case of list file) otherwise '@' or ''
      *  2 = the label itself e.g. "init.label_1
      * Used by findLabelsWithNoReference, provideCodeLenses.
-	 * @param languageId either "asm-collection" or "asm-list-file".
-	 * A different regex is returned dependent on languageId.
+     * @param languageId either "asm-collection" or "asm-list-file".
+     * A different regex is returned dependent on languageId.
      */
     public static regexLabelWithColon(languageId: AllowedLanguageIds): RegExp {
         if (languageId === 'asm-list-file') {
             return new RegexIndexOf(':', /(^[^#]*\s@?)([a-z_][\w\.]*):/i);
         }
-		// "asm-collection"
-        return /(^@?)([a-z_][\w\.]*):/i;
+        // "asm-collection"
+        return /(^@?|^%?)([a-z_][\w\.]*):/i;
     }
 
 
@@ -53,7 +53,7 @@ export class CommonRegexes {
      * Used by findLabelsWithNoReference, provideCodeLenses.
      */
     public static regexLabelWithoutColon(): RegExp {
-        return /^(@?)([a-z_][\w\.]*)(?:\s|$)/i;
+        return /^((^@?)|(^%?))([a-z_][\w\.]*)(?:\s|$)/i;
     }
 
 
@@ -61,10 +61,10 @@ export class CommonRegexes {
      * Returns an array of regexes with 1 or 2 regexes.
      * @param labelsWithColons Add regex with colons
      * @param labelsWithoutColons Add regex without colons
-	 * @param languageId either "asm-collection" or "asm-list-file".
-	 * A different regex is returned dependent on languageId.
+     * @param languageId either "asm-collection" or "asm-list-file".
+     * A different regex is returned dependent on languageId.
      */
-    public static regexLabel(cfg: {labelsWithColons: boolean, labelsWithoutColons: boolean}, languageId: AllowedLanguageIds): RegExp {
+    public static regexLabel(cfg: { labelsWithColons: boolean, labelsWithoutColons: boolean }, languageId: AllowedLanguageIds): RegExp {
         if (languageId === "asm-list-file")   // List file: only with colons
             return CommonRegexes.regexLabelWithColon(languageId);
 
@@ -87,7 +87,7 @@ export class CommonRegexes {
      */
     public static regexInclude(): RegExp {
         //return /\s*INCLUDE\s+"(.*)"/i;
-        return new RegexTwo(/INCLUDE/i, /\s*INCLUDE\s+"(.*)"/i);
+        return new RegexTwo(/!?INCLUDE/i, /\s*!?INCLUDE\s+"(.*)"/i);
     }
 
 
@@ -136,15 +136,15 @@ export class CommonRegexes {
      * Capture groups:
      *  1 = preceding characters before 'searchWord'.
      * Used by DefinitionProvider.
-	 * @param languageId either "asm-collection" or "asm-list-file".
-	 * A different regex is returned dependent on languageId.
+     * @param languageId either "asm-collection" or "asm-list-file".
+     * A different regex is returned dependent on languageId.
      */
     public static regexLabelColonForWord(searchWord: string, languageId: AllowedLanguageIds): RegExp {
         if (languageId == 'asm-list-file') {
             return new RegexTwo(new RegExp(searchWord, 'i'), new RegExp('^(.*?\\s)([[a-zA-Z_\\.][\\w\\.]*)?\\b' + searchWord + ':'));
         }
-		// "asm-collection"
-        return new RegExp('^()([a-zA-Z_\\.][\\w\\.]*)?\\b' + searchWord + ':');
+        // "asm-collection"
+        return new RegExp('^%?()([a-zA-Z_\\.][\\w\\.]*)?\\b' + searchWord + ':');
     }
 
 
@@ -156,7 +156,7 @@ export class CommonRegexes {
      * Used by DefinitionProvider.
      */
     public static regexLabelWithoutColonForWord(searchWord: string): RegExp {
-        return new RegExp('^()([a-zA-Z_\\.][\\w\\.]*)?\\b' + searchWord + '\\b(?![:\\.])');
+        return new RegExp('^%?()([a-zA-Z_\\.][\\w\\.]*)?\\b' + searchWord + '\\b(?![:\\.])');
     }
 
 
@@ -164,10 +164,10 @@ export class CommonRegexes {
      * Returns an array of regexes with 1 or 2 regexes.
      * @param labelsWithColons Add regex with colons
      * @param labelsWithoutColons Add regex without colons
-	 * @param languageId either "asm-collection" or "asm-list-file".
-	 * A different regex is returned dependent on languageId.
+     * @param languageId either "asm-collection" or "asm-list-file".
+     * A different regex is returned dependent on languageId.
      */
-    public static regexesLabelForWord(searchWord: string, cfg: {labelsWithColons: boolean, labelsWithoutColons: boolean}, languageId: AllowedLanguageIds): RegExp[] {
+    public static regexesLabelForWord(searchWord: string, cfg: { labelsWithColons: boolean, labelsWithoutColons: boolean }, languageId: AllowedLanguageIds): RegExp[] {
         const regexes: RegExp[] = [];
         // Find all "some.thing:" (labels) in the document
         if (cfg.labelsWithColons) {

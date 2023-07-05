@@ -1,9 +1,9 @@
 {
     "name": "asm-code-lens",
-    "displayName": "ASM Code Lens",
+    "displayName": "ASM Code Lens (k4sm fork)",
     "version": "2.4.1",
     "publisher": "maziac",
-    "description": "A language server that enables code lens, references, hover information, symbol renaming and the outline view for assembler files.",
+    "description": "A language server that enables code lens, references, hover information, symbol renaming and the outline view for assembler files. Forked to support k4sm assembler syntax.",
     "author": {
         "name": "Thomas Busse"
     },
@@ -328,7 +328,7 @@
         "@types/node": "^18.8.2",
         "@types/vscode": "^1.71.0",
         "@types/vscode-webview": "^1.57.0",
-        "esbuild": "^0.16.9",
+        "esbuild": "0.16.17",
         "source-map-support": "^0.5.21",
         "typescript": "^4.8.4"
     }
